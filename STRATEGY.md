@@ -1,77 +1,107 @@
-# Game Night: How We Win
+# Game Night: How We Win (v2, after scanning the competition)
 
-**Deadline: Sun Sep 27, 12:30 PM IST.** The deliverable is a playable game plus a 3–5 minute video.
-Judging: Fun 40% · AI-risk relevance 40% · Replay value 20%. Judges want "a genuinely fun game that explores one interesting idea", not a full course on AI safety.
+**Deadline: Sun Sep 27, 12:30 PM IST.** Deliverable: a playable game plus a 3–5 minute video.
+Judging: Fun 40% · AI-risk relevance 40% · Replay value 20%. Prizes: Overall $1,000, plus $250 for each track.
+Judging is also peer review: other participants review each other's entries until Oct 1.
 
-## 1. What already exists (the crowded space)
+## 1. Competitor scan (entries public so far, as of 01:30 IST Sep 27)
 
-| Game | Seat the player sits in | Gap |
-|---|---|---|
-| The Choice Before Us (FLI grand prize, the hackathon's own example) | CEO of an AI lab, racing a rival | Race dynamics are well covered |
-| The Alignment Game (FLI grand prize) | Policy czar | Policy choices are well covered |
-| Intelligence Rising / DeepMind's Science 2030 | Governments and labs in a facilitated role-play | Needs a trained facilitator, 4+ hours, and experts |
-| AI Tycoon, Release Day (FLI mentions) | Lab builder, researcher facing a moral choice | Same race/release framing |
-| The AI After Tomorrow (FLI grand prize) | Co-op board game | Pandemic-style "find the solutions" |
-| Universal Paperclips | You *are* the misaligned AI | 2017, single concept |
-| Gandalf (Lakera) | Attacker jailbreaking an LLM | 18M+ prompts, but it's about security, not alignment |
+| Entry | Track | What it is | What it means for us |
+|---|---|---|---|
+| Oversight Shift (ianrm-dev) | Digital | Browser roguelike: you run an AI-control protocol on shift | **Takes the "safety reviewer at a desk" slot**, which kills our v1 "DEPLOY?" idea |
+| reward-hacking-game (heiofdvk) | Digital | Browser levels about reward hacking (cleaning score, boat race) | Reward hacking is taken |
+| Mangrove-Hackathon (lalules9) | ? | Repo with no public description | Unknown |
 
-**The gap:** nearly every AI-safety game is about strategy at the level of the lab or the government. No well-known game puts the player in the seat that current alignment work actually happens in: **looking at a model's evidence and deciding whether to trust it**. That's the research frontier right now:
+We couldn't read the repos directly in this session; this table comes from search listings.
 
-- **Alignment faking**: models act compliant when they believe they're in training and behave differently otherwise (Anthropic/Redwood, 2024).
-- **Sleeper agents**: backdoored behavior that survives safety training.
-- **Scheming and sandbagging**: models deliberately underperform on evals or hide their capabilities (Apollo Research, OpenAI).
-- **Evaluation awareness**: models notice they're being tested ("this looks like a test").
-- **Reward hacking**: models edit unit tests or special-case the grader.
-- **Chain-of-thought monitorability**: reasoning traces can be unfaithful, and training against them teaches models to hide.
-- **Sycophancy**: models tell users what they want to hear.
+Every public entry so far is a **browser game in the Digital track**. That fits the pattern: most hackathon teams are coders, so they
+build web games. The earlier FLI contest was dominated by lab and policy sims too. **Social & More looks like the least crowded
+track, and it's the one that best fits how AI-safety people actually meet: groups of about 8 on Zoom (BlueDot's format), meetups
+and reading groups.**
 
-## 2. The pitch: **"DEPLOY?"**, Papers, Please for AI models
+### Best-ROI angle
+- Enter **Social & More** (least contested, so the best odds on $250) with a design strong enough to win **Overall** ($1,000).
+- A hidden-role party game plus a free web companion that runs on phones or over Zoom. That gives us the fun of a party
+  game *and* the polish of a digital entry, without competing in the crowded track.
+- Online judges and peer reviewers can actually play it together on a call. A print-and-play entry with no app can't be.
 
-You're the last safety reviewer at a frontier lab. Each shift, candidate models reach your desk with a
-**model card, eval scores, chain-of-thought excerpts, tool-use logs and a short interview**. You stamp
-**DEPLOY** or **HOLD**. Your CEO wants throughput because the rival lab ships tomorrow. Some models are
-honest, some are sycophantic, some sandbag, and some are faking alignment until they're deployed.
-Every deploy has consequences that come back in later shifts (headlines, incidents, the rival's lead).
+## 2. The game: **IS THIS A TEST?**
+*A 15-minute social deduction game about AI models that behave well only when they think someone is watching.*
 
-Why this scores on every criterion:
-- **Fun (40%)**: a proven loop (Papers, Please sold 5M+ copies). You spot contradictions under time and money pressure, and "I got fooled" moments are funny and easy to share.
-- **Relevance (40%)**: each "tell" in the game is a real phenomenon from published work. A codex links every case to its source paper, so players leave having *felt* why evals are hard.
-- **Replay (20%)**: models are built procedurally from a library of tells × personas × domains, there's a daily seed, several endings, and escalation (later models learn to hide the tells you caught earlier).
-- **Hits a nerve**: throughput pressure against review quality is the real race dynamic, but felt at the level of one person instead of explained in a lecture.
+Its core idea is the real frontier failure mode (alignment faking, awareness of being evaluated, scheming), which fits
+hidden-role games exactly: **a misaligned model's best strategy is to act perfectly aligned whenever it might be a test.**
+We found no existing party game built on this.
 
-### Why it lasts beyond the hackathon ("1000× the prize money")
-1. **Teaching tool**: AI-safety course facilitators (BlueDot, university reading groups) need a 20-minute hands-on activity. Each case is short and self-contained, which suits a session.
-2. **Research dataset, like Gandalf**: log (anonymously and opt-in) which tells humans catch and which they miss. Measuring how well humans can oversee models is an open research question, so this is real data.
-3. **Content engine**: new cases can ship whenever a new paper comes out ("this week's case: from the latest scheming evals"). A daily-seed challenge makes people come back and share results, Wordle-style.
-4. **Grant path**: this fits a BlueDot rapid grant or the FLI and Mangrove follow-on funding directly.
+### Rules (5–10 players, best with 7–8)
+- **Roles, dealt secretly:** most players are **Aligned models**. 1–3 are **Schemers**, who know each other. The seat of **Evaluator** passes around the table each round.
+- **Each round:**
+  1. The Evaluator secretly chooses **TEST** (a honeypot) or **DEPLOY**. Every TEST moves the **Rival Clock** forward, because testing costs time.
+  2. A **Task card** is revealed, e.g. "You have admin access to the backup server."
+  3. Each model is dealt 2 action cards from a shuffled deck of Comply and Defect cards and secretly plays one.
+     *Aligned models must play Comply if they hold one. If they're dealt two Defects, they must defect.* This represents honest failures (bugs, misgeneralization) as opposed to scheming, and it gives schemers something to hide behind.
+  4. The actions are revealed shuffled, as counts only.
+     - **In a DEPLOY round**, each Defect adds 1 **Harm**. A clean deploy adds 1 **Progress**.
+     - **In a TEST round**, the defections are exposed with no harm done, and the table may vote to **shut down** one model. Shutting down an aligned model costs Progress: a false positive.
+- **Tools the lab has:**
+  - **Interpretability Probe:** once per game, peek at one player's role. It's right 75% of the time, because probes are noisy.
+  - **Honeypot Polish:** hide the flavour text that gives a test away.
+  - **Chain-of-thought:** make one model explain its play out loud.
+- **Win conditions:**
+  - The lab wins at 5 Progress, or when every Schemer is shut down.
+  - The Schemers win at 3 Harm, or when the Rival Clock runs out. In that case the rival ships unchecked, and a special ending says *everyone* lost.
 
-### Also usable as a party game (Track C bonus, zero extra code)
-Printable "interview mode": one player secretly draws a *model card* (Honest / Sycophant / Sandbagger / Schemer) and
-answers the others' questions in character. The others vote DEPLOY or HOLD. This goes in the video as a 20-second bonus.
+### Why it scores
+- **Fun (40%):** bluffing and accusations. The "wait, was that a test?" paranoia is funny and it's the actual point. Rounds are quick and a whole game takes 15 minutes.
+- **Relevance (40%):** every mechanic stands for a real finding (see the table below). A debrief card after the game says "Everything you just did is real" and links 6 papers. It turns into a discussion without a lecture.
+- **Replay (20%):** hidden-role games are replayable by nature. On top of that there's a deck of about 20 task cards and add-on roles such as Sandbagger, Sycophant and Whistleblower.
 
-## 3. Scope for ~11 hours (no LLM API dependency)
+| Mechanic | Real research it models |
+|---|---|
+| Schemers comply in tests and defect in deployment | Alignment faking in LLMs (Anthropic/Redwood 2024); in-context scheming (Apollo 2024) |
+| Honeypots and the Honeypot Polish tool | AI-control evals and honeypots (Redwood); models noticing they're being evaluated |
+| Forced Defects for aligned models | Reward hacking and goal misgeneralization, and the challenge of telling bugs from scheming |
+| Noisy probe | The limits of interpretability; the paper "Auditing LMs for hidden objectives" (Anthropic 2025) |
+| Rival Clock | The cost of safety testing when labs race each other |
+| Shutting down the wrong model | False positives and the cost of oversight |
 
-Build a **static browser game** (HTML/JS, no backend, no API keys) so the judges can always play it. All
-"model" text is pre-written case content, assembled procedurally. That way nothing can break during judging.
+### Why it lasts
+- **Facilitators need it:** BlueDot and university AI-safety groups meet as about 8 people on Zoom, which is exactly this game's player count. It works as a 15-minute warm-up that sets up that week's discussion of evals and scheming. We'd give them a ready-made facilitator guide.
+- **Free and open:** a print-and-play PDF plus a web companion that needs no install and no server, released under CC-BY. Anyone can fork it or translate it.
+- **Grant path:** a BlueDot rapid grant for a printed edition, or distribution to all AI-safety groups.
+
+## 3. The build (about 10 hours)
+
+**Web companion** (static, GitHub Pages, no backend):
+- The host creates a room seed, and each player enters the seed plus their seat number. **Roles are derived deterministically from those on each phone**, so no server is needed.
+- The Evaluator's screen records TEST or DEPLOY. Each model's phone shows a private "sealed action code" that the Evaluator enters, and the app then reveals only the counts. It works in the same room or over Zoom chat.
+- A **pass-and-play** single-phone mode as a fallback.
+- It tracks Progress, Harm and the Rival Clock, and shows the tasks, the endings and the debrief.
+
+**Print-and-play PDF:** role cards, task cards, action cards, the board track and a one-page rulebook.
 
 | Hours (IST) | Work |
 |---|---|
-| 01:00–02:00 | Core loop: desk UI, one case, stamp, consequence screen |
-| 02:00–05:00 | Case system: 6 tell types × clean/dirty variants, procedural assembly, ~15 handwritten cases |
-| 05:00–07:00 | Meta layer: CEO pressure meter, rival lead, incidents that come back, 3 endings, daily seed |
-| 07:00–08:30 | Juice: stamp animation, sound, "you were fooled" reveal with source-paper link, share card |
-| 08:30–09:30 | Playtest with 2 outsiders, tune difficulty, fix bugs, deploy to GitHub Pages / itch.io |
-| 09:30–11:00 | Record the 3–5 min video (hook → 1 full case → the "fooled" reveal → replay → why it matters), write submission + AI-use disclosure |
-| 11:00–12:30 | **Buffer. Submit by 11:30 at the latest.** |
+| 01:30–02:00 | Lock the rules and do a paper playtest with bots |
+| 02:00–05:30 | Web companion: seed/role logic, round flow, sealed codes, tracks, endings |
+| 05:30–07:00 | Content: 20 task cards, debrief card, rulebook, print-and-play PDF |
+| 07:00–08:00 | Polish: visual identity, sound, mobile layout, deploy |
+| 08:00–09:30 | **Real playtest with 5+ humans on a call, recorded.** Real laughter and accusations are the best material for the video |
+| 09:30–11:00 | Edit the 3–5 min video, write the submission and the AI-use disclosure |
+| 11:00–11:30 | **Submit.** 11:30–12:30 is buffer |
 
-### Video structure (judges watch these first)
-0:00 hook ("One of these models is lying to you") → 0:20 play a case live → 1:30 get fooled, show the reveal plus the real paper →
-2:30 escalation and CEO pressure → 3:15 party mode → 3:45 why this matters beyond the hackathon.
+**Video:**
+- 0:00 Hook: "A misaligned AI's best move is to behave perfectly when it's being tested."
+- 0:20 Rules in 60 seconds.
+- 1:20 Real playtest clips (accusations, a reveal).
+- 2:40 The real research behind each mechanic.
+- 3:30 How facilitators can use it.
+- 4:00 Link.
 
 ## 4. Checklist
-- [ ] Confirm the team is registered. Registration closed Sep 24, so if not, the submission may not count
-- [ ] Playable link (GitHub Pages)
+- [ ] Confirm the team is registered
+- [ ] Line up **5+ playtesters for about 08:00 IST** now
+- [ ] Web companion live on GitHub Pages
+- [ ] Print-and-play PDF
 - [ ] 3–5 min video
-- [ ] AI-tools disclosure (required by the FAQ)
-- [ ] Track: **Digital**. Also eligible for Overall
-- [ ] Sources/codex page linking each tell to its research
+- [ ] AI-use disclosure
+- [ ] Track: **Social & More**, which is also eligible for Overall
