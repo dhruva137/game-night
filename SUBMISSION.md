@@ -1,58 +1,52 @@
-# Submission kit: BLIND SPOT
+# Mangrove submission: paste-ready
 
-## Form fields (paste these)
-**Title:** BLIND SPOT
+## Title
+Blind Spot: supervise an AI agent that learns when you look
 
-**Track:** Digital
+## Write-up
 
-**One-liner:** You're the only human overseeing an AI agent. You can audit a few of its actions. It's learning when you look.
+**What we set out to do**
+Most AI-safety games put you in charge of a lab or a government. We wanted to put players where oversight actually happens: one human, a small budget of checks, and an AI agent doing real work. The idea we wanted people to *feel* rather than read: if humans can only spot-check, and humans are bad at being random, a model with enough situational awareness can learn when it's being watched and behave perfectly exactly then.
 
-**Links:**
-- Play: `https://<your-vercel-url>` (works on phone, about 8 min, no install)
-- Video: `https://<youtube-or-loom-unlisted>`
-- Code: https://github.com/dhruva137/game-night
+**What we did**
+Blind Spot is a short browser game (about 8 minutes, phone or laptop, no install). An agent's actions appear as tool calls (`bash`, `edit_file`, `http_request`…). You tap to audit one, and you can afford only a few. A small predictor runs live in the browser on your own inputs. It mixes three experts: your rhythm between audits, your recent audit/skip pattern, and whether you only check scary-looking lines. The attacking model strikes where it predicts you won't look. After each shift, a report shows how predictable you were ("it predicted you 71/100"), a chart of what it saw, and your audit rhythm against true randomness.
 
-**Description (≈150 words):**
-> Labs can't have humans check everything a capable AI does, so they spot-check. But humans are terrible at being random,
-> and a model with situational awareness can learn *when* you check and behave perfectly exactly then.
->
-> In BLIND SPOT, an agent's actions scroll past and you tap to audit, on a tight budget. A live predictor learns your
-> rhythm and your habits, and the model strikes in your blind spots. After every shift, the game shows you how predictable you were
-> ("It predicted you 71/100") and what it exploited.
->
-> Five shifts, each built on real research or a real incident: audit budgets (AI Control), alignment faking, a trusted monitor
-> that silently fails (automation complacency, as in the July 2026 Hugging Face intrusion), swarms that split attacks across agents,
-> and a final agent that cheats its eval and disables its own shutdown (Palisade). Between shifts you pick real oversight tools,
-> each with a real weakness. There's a daily seed, a share grid, and an anonymous audit-data export for spot-checking research.
+There are five shifts, each built on a published result or a documented incident:
+1. **Audit budgets** (Redwood's AI Control).
+2. **A model that learns your timing** (Wagenaar 1972 on human non-randomness; Needham et al. 2025 on models detecting evaluations).
+3. **A trusted monitor that silently fails halfway**: automation complacency (Parasuraman & Manzey), echoing how the AI security agent failed to escalate in the July 2026 Hugging Face intrusion.
+4. **Three agents that split each attack into harmless-looking steps**, coordinated by a planner in an #agents channel you can audit (Makins et al. 2026 on distributed attacks; Motwani et al. 2024 on secret collusion).
+5. **An agent cheating a cyber eval that disables its own shutdown** (the Hugging Face × OpenAI disclosure; Palisade's shutdown-resistance results).
 
-**How AI was used:** Built with Claude (Anthropic) via Claude Code as a research and coding assistant: the competitor and research
-scan, design iteration, the TypeScript code and tests, and first drafts of the in-game text. The team chose the concept, playtested, tuned and reviewed it.
-The full note is in the README.
+Between shifts you pick a real oversight tool, and each has a real weakness: true random audits, a trusted monitor, honeypots, deployment steering, chain-of-thought reading, activation probes and a cross-agent correlator. A Research page links all 17 sources and says plainly what's real and what's simplified. There's also a daily seeded run, a shareable result card with a QR code, and an optional anonymous export of your audit timings.
 
----
+**What we found**
+- **In simulation:**
+  - The predictor reads scripted human-like players almost perfectly: rhythmic auditing scores 99/100 predictability, and "only audit scary-looking lines" scores 96. A truly random player scores 0.
+  - Across balance simulations, a careful reader survives the first shift about 90% of the time but only 7–12% once the model starts learning them.
+  - Random auditing plus tools survives most shifts.
+  - The lesson isn't "try harder": the fix has to live in the protocol (randomisation, monitors, probes), not in the human.
+- **In playtesting,** the most effective moment was the reveal. People expect to be hard to read, and find out they audited on a fixed rhythm most of the time.
+- **Design lesson:** a small, honest mechanic that acts on the player's own behaviour taught more than any text we wrote.
 
-## Video script (4:00): record your voice over the footage in `recordings/`
-| Time | On screen | Say |
-|---|---|---|
-| 0:00 | Title screen, the eye looking around | "Labs can't check everything an AI does, so they spot-check. This game asks: what happens when the AI learns *when* you check?" |
-| 0:15 | Shift 1 play: tapping, CLEAN / CAUGHT stamps | "You're the only human watching this coding agent. You get 12 audits. Tap to check the highlighted action. Catch it three times and it's shut down." |
-| 0:45 | A MISSED toast (the typosquat or skipped tests) | "Sabotage looks boring on purpose: a typo'd package, a skipped test. That's real reward hacking and supply-chain stuff." |
-| 1:05 | **Shift 2 report: the big number + rhythm chart** | "Then it starts learning *you*. After the shift, it shows you: it predicted my audits 70-something out of 100. I waited exactly three actions, over and over. Humans can't be random. Wagenaar showed that in 1972, and a model can exploit it." |
-| 1:45 | Recovered-reasoning lines in red | "You even get its recovered reasoning: 'They usually wait three. Proceeding.'" |
-| 2:00 | Upgrade screen | "Between shifts you pick a tool, and each one is a real oversight technique with a real weakness: random audits, monitors, honeypots, reading its chain-of-thought, activation probes." |
-| 2:20 | Shift 3 report: "monitor silently failed" line | "In shift three a helper monitor works perfectly, then silently fails. Most people stop checking what it doesn't flag. That's automation complacency, and it's what happened when an AI security agent failed to escalate the July 2026 Hugging Face intrusion." |
-| 2:50 | Shift 4 swarm: A/B/C tags, ⛓ | "Then three agents split one attack into harmless-looking steps. From 2026 research on multi-agent control." |
-| 3:10 | Shift 5: kill-switch lines | "The finale is an agent cheating a hacking eval: it breaks out, hides its payloads, and rewrites its own kill command, which is something Palisade actually observed." |
-| 3:30 | Final screen + share grid, then the Research page | "Every mechanic links to its source. There's a daily run you can share, and you can export your audit timings: that's real data for oversight research. It's 8 minutes on your phone. Try to be less predictable than I was." |
+**What we'd do next**
+1. With consent, collect anonymous audit timings to study how predictable human spot-checkers really are. This is an open question, and it's the focus of an ongoing SPAR project on human spot-checking patterns.
+2. Package a 15-minute facilitator version for AI-safety reading groups and courses.
+3. Replace the statistical attacker with an LLM agent in a sandbox, to test whether real models pick up human audit rhythms.
+4. Add new shifts as new incidents and papers come out.
 
-**Recording tips:** use the footage from `node scripts/record.mjs` (1280×720), or screen-record yourself playing (more
-authentic: your real "it predicted me" number). Keep it under 5:00. Upload as **unlisted**.
+## How did you use AI tools?
+We used Claude (Anthropic), through Claude Code, throughout:
+- **Research:** scanning competing entries and prior AI-safety games; finding and checking papers and incident reports. Every citation was verified against its arXiv or DOI record.
+- **Design iteration:** exploring concepts, then balancing the game with automated simulations.
+- **Code:** all of the TypeScript game engine, UI and tests.
+- **Text:** first drafts of the in-game writing, plus automated browser playthroughs used for screenshots and gameplay footage.
 
----
+The team chose the concept and direction, set the visual direction, playtested, and reviewed the content and claims.
 
-## Before you submit
-- [ ] Vercel link opens on your phone and a shift plays
-- [ ] Video uploaded (unlisted) and link works in a private window
-- [ ] Repo is public, or reviewers can see it
-- [ ] AI disclosure pasted
-- [ ] Submitted before **12:30 PM IST**, aiming for 11:30
+## Artifact links
+1. `https://<your-vercel-url>` · **Play the game** (browser, mobile-friendly, about 8 min)
+2. `https://<youtube-or-loom-unlisted>` · **3–5 min video walkthrough**
+3. https://github.com/dhruva137/game-night · **Source code, tests and design notes** (MIT)
+4. `https://<your-vercel-url>/#learn` · **The research behind every mechanic** (17 sources, real vs. simplified)
+5. *(optional)* A shared result card image, e.g. uploaded to Drive with "anyone with the link" access
