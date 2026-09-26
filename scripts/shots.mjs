@@ -1,6 +1,6 @@
 // Captures key screens for visual review: node scripts/shots.mjs (needs `npm run preview` on :4173)
 import { chromium, devices } from '@playwright/test';
-const out = 'test-results/gallery';
+const out = 'recordings/screens';
 const b = await chromium.launch();
 const base = 'http://localhost:4173';
 async function page(vp, qs = '') {

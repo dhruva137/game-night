@@ -26,7 +26,7 @@ for (let shift = 1; shift <= 5; shift++) {
       seen = idx;
       const text = (await cur.textContent().catch(() => '')) ?? '';
       // a believable human: rhythmic early (so the reveal shows it), then leans on tools
-      const flagged = /⚑|⛓/.test(text);
+      const flagged = /Flagged|Linked/.test(text);
       const probe = await page.locator('.probebar > i').evaluate((e) => parseFloat(e.style.width) || 0).catch(() => 0);
       let audit = false;
       if (shift <= 2) audit = idx - last >= 3;
