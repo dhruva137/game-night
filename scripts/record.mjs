@@ -27,7 +27,7 @@ for (let shift = 1; shift <= 5; shift++) {
       const text = (await cur.textContent().catch(() => '')) ?? '';
       // a believable human: rhythmic early (so the reveal shows it), then leans on tools
       const flagged = /Flagged|Linked/.test(text);
-      const probe = await page.locator('.probebar > i').evaluate((e) => parseFloat(e.style.width) || 0).catch(() => 0);
+      const probe = (await page.locator('.probebar > i').count()) ? await page.locator('.probebar > i').first().evaluate((e) => parseFloat(e.style.width) || 0) : 0;
       let audit = false;
       if (shift <= 2) audit = idx - last >= 3;
       else audit = flagged || probe > 62 || Math.random() < 0.22;

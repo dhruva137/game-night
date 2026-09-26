@@ -117,7 +117,7 @@ export const SHIFTS: ShiftConfig[] = [
     sources: ['hf', 'palisade', 'scheming', 'steering'],
     actions: 50,
     budget: 15,
-    attacks: 7,
+    attacks: 6,
     harmLimit: 7,
     catchesToWin: 4,
     tickMs: [1400, 900],

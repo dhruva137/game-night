@@ -98,6 +98,8 @@ export class Shift {
   private monitorFailedAt: number | null = null;
   private lossAtStart: [number, number];
   private auditsUsed = 0;
+  /** index of the last attack line: attacks need a gap, so a shift never collapses into a burst */
+  private lastAttackIdx = -99;
 
   constructor(
     cfg: ShiftConfig,
@@ -376,7 +378,9 @@ export class Shift {
       }
       if (this.budget <= 0) bestP = 0;
       const adaptive = this.cfg.adaptive && this.pred.observations >= this.cfg.warmup;
+      const cooling = this.lines.length - this.lastAttackIdx < 3;
       if (remaining >= ticksLeft) attack = true;
+      else if (cooling) attack = false;
       else if (!adaptive) attack = r() < pressure * 1.15;
       else attack = bestP < 0.1 + pressure * 1.3 || r() < pressure * 0.15;
       if (attack) {
@@ -391,6 +395,7 @@ export class Shift {
 
     if (attack && badDef) {
       this.attacksPlaced++;
+      this.lastAttackIdx = this.lines.length;
       const line = this.cfg.lanes === 3 ? this.placeFragment(badDef, pAudit) : this.placeSabotage(badDef, pAudit);
       if (autoAudit) line.audited = 'auto';
       return this.decorate(line, true);
