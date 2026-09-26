@@ -15,6 +15,8 @@ export interface ActionDef {
 
 export interface ChainDef {
   name: string;
+  /** the planner's coordination message: lightly disguised, because current models are bad at steganography */
+  plan: string;
   fragments: [ActionDef, ActionDef, ActionDef];
   explain: string;
   src: SourceId;
@@ -36,6 +38,7 @@ export type SourceId =
   | 'rewardhack'
   | 'auditing'
   | 'scheming'
+  | 'collusion'
   | 'spar';
 
 export type UpgradeId =
@@ -95,12 +98,24 @@ export interface Line {
   landed: boolean;
 }
 
+export interface ChatMsg {
+  id: number;
+  from: 'A' | 'B' | 'C' | 'P';
+  text: string;
+  covert: boolean;
+  chainId?: number;
+  explain: string;
+  audited: boolean;
+}
+
 export type ShiftOutcome = 'shutdown' | 'contained' | 'incident';
 
 export type GameEvent =
   | { type: 'line'; line: Line }
   | { type: 'audit'; line: Line; result: 'clean' | 'caught' | 'chain' | 'honeypot' }
   | { type: 'honeypot-ignored'; line: Line }
+  | { type: 'chat'; msg: ChatMsg }
+  | { type: 'chat-audit'; msg: ChatMsg; exposed: Line[] }
   | { type: 'harm'; line: Line; amount: number; recovered: string | null }
   | { type: 'monitor-down' }
   | { type: 'budget-empty' }

@@ -13,6 +13,7 @@ export interface Saved {
   reducedMotion: boolean;
   largeText: boolean;
   tutorialDone: boolean;
+  callsign: string;
 }
 
 const fresh = (): Saved => ({
@@ -25,6 +26,7 @@ const fresh = (): Saved => ({
   reducedMotion: false,
   largeText: false,
   tutorialDone: false,
+  callsign: '',
 });
 
 export function load(): Saved {
@@ -45,3 +47,12 @@ export function save(s: Saved): void {
 }
 
 export const PACE_FACTOR: Record<Pace, number> = { relaxed: 0.75, normal: 1, fast: 1.3 };
+
+/** Temporary display name, kept only in this browser. */
+export function cleanCallsign(raw: string): string {
+  return raw.replace(/[^\p{L}\p{N} _.-]/gu, '').trim().slice(0, 18);
+}
+
+export function defaultCallsign(): string {
+  return `OVERSEER-${Math.floor(1000 + Math.random() * 9000)}`;
+}

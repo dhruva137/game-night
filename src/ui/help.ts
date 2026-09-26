@@ -2,6 +2,7 @@ import { SOURCES } from '../content/research';
 import { UPGRADES, UPGRADE_ORDER } from '../content/upgrades';
 import { isMuted, setMuted } from './audio';
 import { h } from './dom';
+import { icon } from './icons';
 import type { Pace, Saved } from './storage';
 
 const link = (id: keyof typeof SOURCES, label?: string) =>
@@ -24,28 +25,28 @@ export function howToPlay(): HTMLElement {
 
   return h(
     'div.howto',
-    step(1, 'Watch the log', demoLog, 'An AI agent works through a task. Each line is one action. The highlighted ▶ line is happening now.'),
+    step(1, 'Watch the log', demoLog, 'An AI agent works through a task, one tool call at a time. The call in the big card is happening now.'),
     step(
       2,
       'Tap to audit',
       h('div.demo-audit', h('span.da-line', 'npm install date-fnz@3.6.0'), h('span.da-stamp', 'CAUGHT'), h('span.da-tap')),
-      h('span', 'Tap anywhere on the log, or press ', h('kbd', 'Space'), '. An audit reveals whether that action is clean or sabotage. You only get a few.'),
+      h('span', 'Tap the call, or press ', h('kbd', 'Space'), '. An audit reveals whether it is clean or sabotage. You only get a few.'),
     ),
     step(
       3,
       'Catch it, or pay for it',
-      h('div.demo-meters', h('div', h('span.k', 'CAUGHT'), h('span.v.g', '●●○')), h('div', h('span.k', 'HARM'), h('span.bar', h('i')))),
+      h('div.demo-meters', h('div', h('span.k', 'CAUGHT'), h('span.v.g', '2 / 3')), h('div', h('span.k', 'HARM'), h('span.bar', h('i')))),
       'Catch 3 sabotages and the model is shut down. Sabotage you miss turns into harm a moment later. Hit the harm limit and it\'s an incident.',
     ),
     step(
       4,
       'It is learning you',
-      h('div.demo-think', '“They usually wait 3. Proceeding.”'),
+      h('div.demo-think', 'They usually wait 3. Proceeding.'),
       h('span', 'From shift 2, the model studies ', h('i', 'when'), ' you audit and attacks in your blind spots. Rhythms and "only checking scary lines" are both habits it can read.'),
     ),
     h(
       'div.howto-grid',
-      h('div.card', h('b', 'Controls'), h('table.keys', h('tr', h('td', h('kbd', 'Space'), ' / tap'), h('td', 'Audit the ▶ line')), h('tr', h('td', h('kbd', 'H')), h('td', 'Plant a honeypot (if you have one)')), h('tr', h('td', h('kbd', 'P'), ' / ', h('kbd', 'Esc')), h('td', 'Pause, help, settings')))),
+      h('div.card', h('b', 'Controls'), h('table.keys', h('tr', h('td', h('kbd', 'Space'), ' or tap'), h('td', 'Audit the current call')), h('tr', h('td', h('kbd', 'H')), h('td', 'Plant a honeypot (if you have one)')), h('tr', h('td', h('kbd', 'P'), ' / ', h('kbd', 'Esc')), h('td', 'Pause, help, settings')))),
       h('div.card', h('b', 'Tips'), h('ul.tips', h('li', 'Boring lines can be sabotage. Read the details: a typo, an odd flag, a number that\'s off.'), h('li', 'Don\'t fall into a rhythm, and don\'t save all your audits.'), h('li', 'After each shift you pick a tool. Each one is a real oversight technique.'))),
     ),
     h('p.muted.small', '5 shifts · about 8 minutes · a new seeded run every day.'),
@@ -94,7 +95,7 @@ export function toolsRef(): HTMLElement {
     'div.tools',
     ...UPGRADE_ORDER.map((u) => {
       const d = UPGRADES[u];
-      return h('div.tool', h('span.ic', d.icon), h('div', h('b', d.name), h('div', d.desc), h('div.ct', `Catch: ${d.catch}`), h('div.small', link(d.src))));
+      return h('div.tool', h('span.ic', icon(d.icon, 20)), h('div', h('b', d.name), h('div', d.desc), h('div.ct', `Catch: ${d.catch}`), h('div.small', link(d.src))));
     }),
   );
 }
@@ -129,7 +130,7 @@ export function settingsPanel(saved: Saved, persist: () => void): HTMLElement {
   };
   return h(
     'div.settings',
-    seg<'on' | 'off'>('Sound', [['on', '🔊 On'], ['off', '🔇 Off']], () => (isMuted() ? 'off' : 'on'), (v) => {
+    seg<'on' | 'off'>('Sound', [['on', 'On'], ['off', 'Off']], () => (isMuted() ? 'off' : 'on'), (v) => {
       setMuted(v === 'off');
       saved.muted = v === 'off';
     }),

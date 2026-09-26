@@ -10,7 +10,7 @@ test('full run: 5 shifts, upgrades, ending, share', async ({ page }, info) => {
   // mark training as done so the run starts at shift 1
   await page.evaluate(() => localStorage.setItem('blind-spot:v1', JSON.stringify({ tutorialDone: true })));
   await page.reload();
-  await page.getByRole('button', { name: /Play daily run/ }).click();
+  await page.getByRole('button', { name: /Play daily/ }).click();
 
   for (let shift = 1; shift <= 5; shift++) {
     await page.getByRole('button', { name: /Begin shift/ }).click();
@@ -21,6 +21,13 @@ test('full run: 5 shifts, upgrades, ending, share', async ({ page }, info) => {
       if (Math.random() < 0.35) await page.keyboard.press('Space');
       if (i % 9 === 4) await page.keyboard.press('h');
       if (i === 12) await page.screenshot({ path: `test-results/shots/run-s${shift}-play.png` });
+      if (shift === 4 && i === 20) {
+        const tab = page.getByRole('tab', { name: /#agents/ });
+        await tab.click();
+        const plan = page.locator('.msg', { hasText: 'planner' }).first();
+        if (await plan.count()) await plan.click();
+        await page.screenshot({ path: 'test-results/shots/run-s4-comms.png' });
+      }
       await page.waitForTimeout(260);
       if (++i > 400) throw new Error('shift did not end');
     }
@@ -44,7 +51,10 @@ test('full run: 5 shifts, upgrades, ending, share', async ({ page }, info) => {
     }
   }
   await expect(page.locator('.ending')).toBeVisible();
-  await expect(page.locator('.sharebox')).toContainText('BLIND SPOT #');
+  await expect(page.locator('img.share-img')).toHaveAttribute('src', /^data:image\/png/, { timeout: 8000 });
   await page.screenshot({ path: 'test-results/shots/run-final.png', fullPage: true });
+  const src = await page.locator('img.share-img').getAttribute('src');
+  const fs = await import('node:fs');
+  fs.writeFileSync('test-results/shots/share-card.png', Buffer.from((src ?? '').split(',')[1], 'base64'));
   expect(errors).toEqual([]);
 });

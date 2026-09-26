@@ -12,7 +12,7 @@ await page.goto(`http://localhost:4173/?speed=${speed}`);
 await page.evaluate(() => localStorage.setItem('blind-spot:v1', JSON.stringify({ tutorialDone: true })));
 await page.reload();
 await wait(4500);
-await page.getByRole('button', { name: /Play daily run/ }).click();
+await page.getByRole('button', { name: /Play daily/ }).click();
 
 for (let shift = 1; shift <= 5; shift++) {
   await wait(4000); // let the briefing be read on camera
@@ -20,8 +20,8 @@ for (let shift = 1; shift <= 5; shift++) {
   let last = -99;
   let seen = -1;
   while (!(await page.locator('.verdict').isVisible())) {
-    const cur = page.locator('.ln.cur');
-    const idx = Number((await cur.locator('.n').textContent().catch(() => '0')) ?? 0);
+    const idx = Number(((await page.locator('.focus .idx').textContent().catch(() => '#0')) ?? '#0').slice(1));
+    const cur = page.locator('.focus');
     if (idx !== seen) {
       seen = idx;
       const text = (await cur.textContent().catch(() => '')) ?? '';

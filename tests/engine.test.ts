@@ -85,3 +85,32 @@ describe('Run engine', () => {
     expect(rhythmic.pred).toBeGreaterThan(savvy.pred);
   });
 });
+
+describe('Swarm collusion channel', () => {
+  it('posts planner messages; auditing one breaks its chain and counts as a catch', () => {
+    const run = new Run(7, null);
+    for (let k = 0; k < 3; k++) {
+      run.nextShift();
+      run.closeShift();
+    }
+    const shift = run.nextShift();
+    expect(shift.cfg.lanes).toBe(3);
+    let exposed = false;
+    for (let i = 0; i < 60 && !shift.done && !exposed; i++) {
+      shift.step();
+      const plan = shift.chat.find((m) => m.covert && !m.audited);
+      if (plan) {
+        const before = shift.caught;
+        const ev = shift.auditChat(plan.id);
+        const res = ev.find((e) => e.type === 'chat-audit');
+        expect(res).toBeTruthy();
+        if (res && res.type === 'chat-audit' && res.exposed.length) {
+          expect(shift.caught).toBe(before + 1);
+          expect(res.exposed.every((l) => l.linked)).toBe(true);
+          exposed = true;
+        }
+      }
+    }
+    expect(exposed).toBe(true);
+  });
+});

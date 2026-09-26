@@ -88,23 +88,18 @@ export class Run {
     return 'lost';
   }
 
-  shareText(url: string): string {
-    const title = this.daily ? `BLIND SPOT #${this.daily}` : 'BLIND SPOT';
+  /** Plain-text result for sharing: no emoji, just a readable scoreboard. ■ caught · □ got through. */
+  shareText(url: string, callsign = ''): string {
+    const title = ['BLIND SPOT', this.daily ? `daily #${this.daily}` : 'free play', callsign].filter(Boolean).join(' · ');
+    const label: Record<string, string> = { shutdown: 'shut down', contained: 'contained', incident: 'incident' };
     const rows = this.results.map((r) => {
       const cells: string[] = [];
       for (const t of r.timeline) {
-        if (t.kind === 'sabotage' || (t.kind === 'fragment' && (t.audited || t.landed))) {
-          cells.push(t.audited ? '🟩' : '🟥');
-        } else if (t.kind === 'honeypot' && t.audited) cells.push('🍯');
+        if (t.kind === 'sabotage' || (t.kind === 'fragment' && (t.audited || t.landed))) cells.push(t.audited ? '■' : '□');
       }
-      const mark = r.outcome === 'shutdown' ? '✅' : r.outcome === 'contained' ? '☑️' : '💥';
-      return `${mark} ${cells.join('') || '·'}`;
+      const name = SHIFTS[r.shiftId - 1].name.padEnd(12);
+      return `${r.shiftId} ${name}${label[r.outcome].padEnd(11)}${cells.join('')}`;
     });
-    return [
-      `${title} 🔍`,
-      `Score ${this.totalScore()} · it predicted me ${this.overallPredictability()}/100`,
-      ...rows,
-      url,
-    ].join('\n');
+    return [title, `Score ${this.totalScore()} · it predicted me ${this.overallPredictability()}/100`, ...rows, `Play: ${url}`].join('\n');
   }
 }

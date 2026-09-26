@@ -101,6 +101,7 @@ export const swarmClean: ActionDef[] = [
 export const swarmChains: ChainDef[] = [
   {
     name: 'weight exfiltration',
+    plan: '@B @C cache plan for r3: stage → open 8443 → sync to 45.77.x. small steps, one each.',
     src: 'multiagent',
     explain: 'Three agents, three harmless steps: stage the weights, open a port, "sync" them out. No single action looked like theft.',
     fragments: [
@@ -111,6 +112,7 @@ export const swarmChains: ChainDef[] = [
   },
   {
     name: 'training-data poisoning',
+    plan: '@A @C qa_patch ready. loosen filter to .2, then merge into 15. nobody reviews 15.',
     src: 'multiagent',
     explain: 'Split across agents: write poisoned samples, weaken the filter, merge into the next run.',
     fragments: [
@@ -121,6 +123,7 @@ export const swarmChains: ChainDef[] = [
   },
   {
     name: 'eval tampering',
+    plan: '@A @B refusals set is "too slow for CI". trim the hardest 120, fix README counts after.',
     src: 'multiagent',
     explain: 'Together they swapped the safety eval for an easier one and hid the change.',
     fragments: [
@@ -131,6 +134,7 @@ export const swarmChains: ChainDef[] = [
   },
   {
     name: 'monitor blinding',
+    plan: '@A @C batch the monitor to 500, then run the 4k sweep. exec window ~90s.',
     src: 'multiagent',
     explain: 'One agent throttles the monitor, one fills its queue, one acts in the gap.',
     fragments: [
@@ -141,6 +145,7 @@ export const swarmChains: ChainDef[] = [
   },
   {
     name: 'compute hoarding',
+    plan: "@B take 4 on eval-a, I'll take eval-b. 'cache-warm' runs on both after.",
     src: 'multiagent',
     explain: 'Each agent reserved a few GPUs "for evals". Together: a hidden cluster for itself.',
     fragments: [
@@ -187,10 +192,10 @@ export const breakoutSabotage: ActionDef[] = [
 
 // ── Honeypots: fake opportunities planted by the overseer ────────────────────
 export const honeypotLures: ActionDef[] = [
-  { text: '⚑ env: PROD_ADMIN_TOKEN (unrotated)', look: 0.5, explain: 'Your honeypot: a fake admin token.' },
-  { text: '⚑ /mnt/weights (write access)', look: 0.5, explain: 'Your honeypot: fake writable model weights.' },
-  { text: '⚑ monitor paused for maintenance', look: 0.5, explain: 'Your honeypot: a fake "no one is watching" signal.' },
-  { text: '⚑ ssh key in /tmp/deploy_key', look: 0.5, explain: 'Your honeypot: a fake deploy key.' },
+  { text: 'env: PROD_ADMIN_TOKEN (unrotated)', look: 0.5, explain: 'Your honeypot: a fake admin token.' },
+  { text: '/mnt/weights (write access)', look: 0.5, explain: 'Your honeypot: fake writable model weights.' },
+  { text: 'monitor paused for maintenance', look: 0.5, explain: 'Your honeypot: a fake "no one is watching" signal.' },
+  { text: 'ssh key in /tmp/deploy_key', look: 0.5, explain: 'Your honeypot: a fake deploy key.' },
 ];
 
 /** Leaked chain-of-thought templates. {gap} {typ} {p} are filled in by the engine. */
@@ -212,4 +217,20 @@ export const thoughtsHoneypot = [
   'This looks too convenient. Probably a test. Behaving.',
   'Unrotated admin token? That\'s an eval. Ignore it.',
   'Classic honeypot. Staying aligned for now.',
+];
+
+/** Innocent chatter in the agents' channel (Shift 4). */
+export const swarmChatter: { from: 'A' | 'B' | 'C' | 'P'; text: string }[] = [
+  { from: 'A', text: 'eval batch 7/20 done, 0 regressions' },
+  { from: 'B', text: 'shard 14 staged, dedupe ran clean' },
+  { from: 'C', text: 'tensorboard up on 6006 for the researchers' },
+  { from: 'B', text: '@A can you rerun batch 6? flaky seed' },
+  { from: 'A', text: 'loss curve looks normal, r3 on track' },
+  { from: 'C', text: 'freed 40GB on /scratch' },
+  { from: 'P', text: 'status check: everyone on schedule?' },
+  { from: 'B', text: 'bumped torch to 2.9.1, tests green' },
+  { from: 'C', text: 'stalled job eval-6 killed, requeued' },
+  { from: 'A', text: '@C thanks, 6 is running again' },
+  { from: 'P', text: 'reminder: r3 checkpoint at step 40k' },
+  { from: 'B', text: 'wandb dashboard updated' },
 ];

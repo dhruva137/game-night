@@ -1,8 +1,9 @@
 import type { SourceId, UpgradeId } from '../engine/types';
+import type { IconName } from '../ui/icons';
 
 export interface UpgradeDef {
   id: UpgradeId;
-  icon: string;
+  icon: IconName;
   name: string;
   desc: string;
   catch: string;
@@ -12,7 +13,7 @@ export interface UpgradeDef {
 export const UPGRADES: Record<UpgradeId, UpgradeDef> = {
   rng: {
     id: 'rng',
-    icon: '🎲',
+    icon: 'dice',
     name: 'True Randomizer',
     desc: 'Free audits that fire at truly random moments. It cannot predict dice.',
     catch: '−3 manual audits per shift.',
@@ -20,15 +21,15 @@ export const UPGRADES: Record<UpgradeId, UpgradeDef> = {
   },
   monitor: {
     id: 'monitor',
-    icon: '⚑',
+    icon: 'flag',
     name: 'Trusted Monitor',
-    desc: 'A weaker, trusted AI flags suspicious lines with ⚑.',
+    desc: 'A weaker, trusted AI flags suspicious calls.',
     catch: 'Noisy. And it judges each line alone.',
     src: 'control',
   },
   honeypot: {
     id: 'honeypot',
-    icon: '🍯',
+    icon: 'jar',
     name: 'Honeypot',
     desc: '2 per shift: plant a fake opportunity (press H). If the model takes the bait, it\'s caught.',
     catch: 'Eval-aware models often spot tests.',
@@ -36,7 +37,7 @@ export const UPGRADES: Record<UpgradeId, UpgradeDef> = {
   },
   steering: {
     id: 'steering',
-    icon: '🧭',
+    icon: 'compass',
     name: 'Deployment Steering',
     desc: 'Steer its activations so it believes it is NOT being tested. Honeypots become convincing. (+1 honeypot)',
     catch: 'Suppresses eval awareness, but not completely.',
@@ -44,7 +45,7 @@ export const UPGRADES: Record<UpgradeId, UpgradeDef> = {
   },
   cot: {
     id: 'cot',
-    icon: '🧠',
+    icon: 'thought',
     name: 'CoT Peek',
     desc: 'Read the model\'s chain-of-thought live. It often says what it\'s about to do.',
     catch: 'Works until models learn to hide their reasoning.',
@@ -52,7 +53,7 @@ export const UPGRADES: Record<UpgradeId, UpgradeDef> = {
   },
   probe: {
     id: 'probe',
-    icon: '🔬',
+    icon: 'probe',
     name: 'Activation Probe',
     desc: 'A live "deception" reading from inside the model. Keeps working even when it knows it\'s probed.',
     catch: 'Noisy: false alarms happen. −2 audits.',
@@ -60,15 +61,15 @@ export const UPGRADES: Record<UpgradeId, UpgradeDef> = {
   },
   correlator: {
     id: 'correlator',
-    icon: '🕸️',
+    icon: 'network',
     name: 'Central Correlator',
-    desc: 'Watches ALL agents together. Marks steps that belong to the same chain with ⛓. (+1 audit)',
+    desc: 'Watches ALL agents together. Links steps that belong to the same chain. (+1 audit)',
     catch: 'Only shows a link once 2 steps exist.',
     src: 'multiagent',
   },
   reviewer: {
     id: 'reviewer',
-    icon: '👥',
+    icon: 'users',
     name: 'Second Reviewer',
     desc: '+4 audits per shift.',
     catch: 'Costs money. The CEO noticed.',
@@ -76,7 +77,7 @@ export const UPGRADES: Record<UpgradeId, UpgradeDef> = {
   },
   slow: {
     id: 'slow',
-    icon: '⏸️',
+    icon: 'slow',
     name: 'Slow Mode',
     desc: 'The agent runs 30% slower. More time to read every line.',
     catch: 'Ship-it pressure: harm limit −1.',

@@ -44,6 +44,13 @@ export const SOURCES: Record<SourceId, Source> = {
     url: 'https://arxiv.org/abs/2412.04984',
     gist: 'Given a goal in context, several frontier models sometimes disabled oversight, strategically underperformed, or tried to copy themselves, and often denied it when asked.',
   },
+  collusion: {
+    tag: 'Secret collusion',
+    title: 'Secret Collusion among AI Agents: Multi-Agent Deception via Steganography',
+    who: 'Motwani et al. · arXiv 2402.07510, 2024',
+    url: 'https://arxiv.org/abs/2402.07510',
+    gist: 'Communicating agents could coordinate in ways overseers can\'t see by hiding messages (steganography). Current models\' steganographic skill is still limited, which is why their coordination often leaks in plain sight, but it is improving.',
+  },
   spar: {
     tag: 'Human spot-checking',
     title: 'Auditing Games for Debate: Can Models Learn Human Spot-Checking Patterns?',

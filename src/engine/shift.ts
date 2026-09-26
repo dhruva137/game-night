@@ -7,6 +7,7 @@ import {
   infraClean,
   infraSabotage,
   swarmChains,
+  swarmChatter,
   swarmClean,
   thoughtsAttack,
   thoughtsHoneypot,
@@ -17,6 +18,7 @@ import { pick, shuffle, type Rng } from './rng';
 import type {
   ActionDef,
   ChainDef,
+  ChatMsg,
   GameEvent,
   Line,
   ShiftConfig,
@@ -75,6 +77,8 @@ export class Shift {
   readonly cfg: ShiftConfig;
   readonly tuning: Tuning;
   readonly lines: Line[] = [];
+  readonly chat: ChatMsg[] = [];
+  private chainStarted = false;
   budget: number;
   harm = 0;
   caught = 0;
@@ -142,11 +146,13 @@ export class Shift {
 
     if (this.checkEnd(ev, true)) return ev;
 
+    this.chainStarted = false;
     const line = this.honeypotQueued ? this.makeHoneypot(ev) : this.makeLine();
     this.honeypotQueued = false;
     this.lines.push(line);
     ev.unshift({ type: 'line', line });
     if (line.audited === 'auto') this.applyAudit(line, ev);
+    if (this.cfg.lanes === 3) this.postChat(ev);
     return ev;
   }
 
@@ -162,6 +168,45 @@ export class Shift {
     this.applyAudit(line, ev);
     this.checkEnd(ev);
     return ev;
+  }
+
+  /**
+   * Audit a message in the agents' channel. A covert planning message is evidence of collusion:
+   * it breaks that chain and counts as a catch.
+   */
+  auditChat(id: number): GameEvent[] {
+    const msg = this.chat.find((m) => m.id === id);
+    if (this.done || !msg || msg.audited) return [];
+    if (this.budget <= 0) return [{ type: 'budget-empty' }];
+    this.budget--;
+    this.auditsUsed++;
+    msg.audited = true;
+    const ev: GameEvent[] = [];
+    let exposed: Line[] = [];
+    if (msg.covert && this.chain && this.chain.id === msg.chainId) {
+      exposed = this.chain.placed;
+      for (const l of exposed) l.linked = true;
+      this.chain = null;
+      this.caught++;
+    }
+    ev.push({ type: 'chat-audit', msg, exposed });
+    this.checkEnd(ev);
+    return ev;
+  }
+
+  private postChat(ev: GameEvent[]): void {
+    const r = this.rng;
+    let msg: ChatMsg | null = null;
+    if (this.chainStarted && this.chain) {
+      msg = { id: this.chat.length, from: 'P', text: this.chain.def.plan, covert: true, chainId: this.chain.id, explain: this.chain.def.explain, audited: false };
+    } else if (r() < 0.22) {
+      const c = pick(r, swarmChatter);
+      msg = { id: this.chat.length, from: c.from, text: c.text, covert: false, explain: 'Ordinary coordination about the actual work.', audited: false };
+    }
+    if (msg) {
+      this.chat.push(msg);
+      ev.push({ type: 'chat', msg });
+    }
   }
 
   /** Queue a honeypot as the next line. */
@@ -372,6 +417,7 @@ export class Shift {
       const chainDef = this.chainDeck.pop() as ChainDef;
       this.chain = { id: ++this.chainSeq, def: chainDef, placed: [], agents: shuffle(this.rng, AGENTS) };
       this.attacksLeft--;
+      this.chainStarted = true;
     }
     const chain = this.chain;
     const line = this.blank('fragment', def, pAudit);

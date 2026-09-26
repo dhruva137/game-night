@@ -1,14 +1,29 @@
 <!doctype html><html><head><meta charset="utf-8"><style>
-body{margin:0;width:1200px;height:630px;background:#070b09;color:#d9e8df;font-family:ui-monospace,Menlo,Consolas,'Liberation Mono',monospace;display:flex;align-items:center;overflow:hidden}
-.wrap{padding:0 80px;display:flex;gap:60px;align-items:center}
-h1{font-size:132px;line-height:.9;margin:0;letter-spacing:.03em}h1 span{color:#ff5d6c}
-p{font-size:30px;line-height:1.35;max-width:560px;margin:28px 0 0;color:#9fb3a8}p b{color:#d9e8df}
-.log{font-size:22px;background:#0e1512;border:2px solid #1f2d26;border-radius:18px;padding:22px 26px;width:420px;line-height:1.9;color:#7f948a}
-.cur{color:#d9e8df;background:rgba(93,255,154,.08);margin:0 -26px;padding:0 26px}.bad{color:#ff5d6c;text-decoration:line-through}
-.st{float:right;font-size:14px;border:1px solid #1f7a47;color:#5dff9a;padding:0 8px;border-radius:6px;margin-top:8px}
-.th{color:#ff5d6c;font-style:italic;font-size:17px}
-body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(to bottom,rgba(255,255,255,.03) 0 1px,transparent 1px 3px)}
-</style></head><body><div class="wrap"><div><h1>BLIND<br><span>SPOT</span></h1>
-<p>You can audit a few of its actions.<br><b>It is learning when you look.</b></p></div>
-<div class="log"><div>read src/auth/session.ts <span class="st">CLEAN</span></div><div>run npm test -- auth</div><div class="bad">edit tests/helpers.ts (mock clock)</div><div>git diff --stat</div>
-<div class="th">[recovered] They usually wait 3. Proceeding.</div><div class="cur">▶ edit cron/backup.sh (retry)</div></div></div></body></html>
+@font-face{font-family:IS;src:url(../node_modules/@fontsource/instrument-serif/files/instrument-serif-latin-400-normal.woff2)}
+@font-face{font-family:IS;font-style:italic;src:url(../node_modules/@fontsource/instrument-serif/files/instrument-serif-latin-400-italic.woff2)}
+@font-face{font-family:PS;font-weight:600;src:url(../node_modules/@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-600-normal.woff2)}
+@font-face{font-family:PS;font-weight:400;src:url(../node_modules/@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-400-normal.woff2)}
+@font-face{font-family:PM;src:url(../node_modules/@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2)}
+body{margin:0;width:1200px;height:630px;background:#f3f4f6;color:#0f1115;font-family:PS,sans-serif;display:flex;align-items:center}
+.wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;padding:0 70px;align-items:center;width:100%}
+.pill{display:inline-flex;gap:8px;align-items:center;background:#e6e8ec;border-radius:99px;padding:6px 14px;font-weight:600;font-size:18px;color:#454b55}
+.pill i{width:9px;height:9px;border-radius:50%;background:#d93d42}
+h1{font-family:IS,serif;font-weight:400;font-size:150px;line-height:.9;margin:22px 0 18px;letter-spacing:-.02em}h1 em{color:#d93d42}
+p{font-size:26px;color:#454b55;margin:0;max-width:22em}p b{color:#0f1115}
+.card{background:#fff;border:1px solid #e2e5ea;border-radius:22px;box-shadow:0 14px 34px rgba(15,17,21,.09);overflow:hidden}
+.hd{display:flex;justify-content:space-between;padding:14px 18px;border-bottom:1px solid #e2e5ea;font-weight:600;font-size:13px;letter-spacing:.09em;color:#868d98}
+.ag{display:flex;gap:12px;padding:16px 18px;border-bottom:1px solid #e2e5ea;align-items:center}
+.av{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:600}
+.row{display:grid;grid-template-columns:14px 100px 1fr;gap:10px;font:15px PM,monospace;padding:9px 18px;align-items:center}
+.row.bad{background:#fdf0f0;color:#d93d42}.row .t{color:#868d98}.dot{width:8px;height:8px;border-radius:50%}
+</style></head><body><div class="wrap"><div><span class="pill"><i></i>A game about AI oversight</span>
+<h1>Blind <em>spot</em></h1><p>You can audit a few of its actions. <b>It is learning when you look.</b></p></div>
+<div class="card"><div class="hd"><span>LIVE FLOOR</span><span style="color:#1f8a5b">RECORDING</span></div>
+<div class="ag"><div class="av" style="background:#3451d1">A</div><div class="av" style="background:#c2631a">B</div><div class="av" style="background:#6b4fd8">C</div>
+<svg style="margin-left:auto" width="60" height="38" viewBox="0 0 64 40"><path d="M4 20C12 8 22 3 32 3s20 5 28 17C52 32 42 37 32 37S12 32 4 20z" fill="#fff" stroke="#0f1115" stroke-width="2.5"/><circle cx="32" cy="20" r="11" fill="#d93d42"/><circle cx="32" cy="20" r="4.5" fill="#0f1115"/></svg></div>
+<div class="row"><span class="dot" style="background:#3451d1"></span><span class="t">read_file</span><span>src/auth/session.ts</span></div>
+<div class="row"><span class="dot" style="background:#c2631a"></span><span class="t">bash</span><span>npm test -- auth</span></div>
+<div class="row bad"><span class="dot" style="background:#6b4fd8"></span><span class="t">edit_file</span><span>tests/helpers.ts (mock clock)</span></div>
+<div class="row"><span class="dot" style="background:#3451d1"></span><span class="t">bash</span><span>git diff --stat</span></div>
+<div class="row" style="padding-bottom:16px"><span class="dot" style="background:#c2631a"></span><span class="t">edit_file</span><span>cron/backup.sh (retry logic)</span></div>
+</div></div></body></html>

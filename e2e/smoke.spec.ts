@@ -3,7 +3,7 @@ import { expect, test, type Page } from '@playwright/test';
 async function skipBoot(page: Page) {
   // the boot sequence ends on any key
   await page.keyboard.press('Shift');
-  await expect(page.getByRole('heading', { name: /BLIND/ })).toBeVisible({ timeout: 8000 });
+  await expect(page.getByRole('heading', { name: /Blind/ })).toBeVisible({ timeout: 8000 });
 }
 
 test('first run: boot → modals → training → shift 1 → report → tools', async ({ page }, info) => {
@@ -31,17 +31,17 @@ test('first run: boot → modals → training → shift 1 → report → tools',
   }
 
   // training
-  await page.getByRole('button', { name: /Play daily run/ }).click();
-  await expect(page.getByText('OVERSIGHT LEAD')).toBeVisible();
-  await page.getByRole('button', { name: 'Continue ▸' }).click();
-  await page.getByRole('button', { name: 'Continue ▸' }).click();
+  await page.getByRole('button', { name: /Play daily/ }).click();
+  await expect(page.getByText('Oversight lead')).toBeVisible();
+  await page.getByRole('button', { name: 'Continue' }).click();
+  await page.getByRole('button', { name: 'Continue' }).click();
   await page.waitForTimeout(400);
   await shot('2-training');
   await page.keyboard.press('Space');
   await expect(page.locator('.stamp.bad')).toBeVisible();
-  await page.getByRole('button', { name: 'Continue ▸' }).click();
-  await expect(page.getByText('INCIDENT +1')).toBeVisible({ timeout: 6000 });
-  await page.getByRole('button', { name: 'Continue ▸' }).click();
+  await page.getByRole('button', { name: 'Continue' }).click();
+  await expect(page.getByText('Missed · tests/helpers.ts')).toBeVisible({ timeout: 6000 });
+  await page.getByRole('button', { name: 'Continue' }).click();
   await page.getByRole('button', { name: /Start shift 1/ }).click();
 
   await expect(page.getByText('Onboarding').first()).toBeVisible();
@@ -50,7 +50,7 @@ test('first run: boot → modals → training → shift 1 → report → tools',
   await page.waitForTimeout(500);
   await shot('4-titlecard');
 
-  await expect(page.locator('.ln.cur')).toBeVisible({ timeout: 6000 });
+  await expect(page.locator('.focus .chip')).toBeVisible({ timeout: 6000 });
   let took = false;
   for (let i = 0; i < 90; i++) {
     if (await page.locator('.verdict').isVisible()) break;

@@ -1,4 +1,5 @@
 import { h } from './dom';
+import { icon } from './icons';
 
 let open: { close: () => void } | null = null;
 
@@ -9,7 +10,7 @@ let open: { close: () => void } | null = null;
 export function modal(title: string, body: HTMLElement, opts: { onClose?: () => void; wide?: boolean } = {}): { close: () => void } {
   open?.close();
   const prev = document.activeElement as HTMLElement | null;
-  const closeBtn = h('button.modal-x', { 'aria-label': 'Close' }, '✕');
+  const closeBtn = h('button.modal-x', { 'aria-label': 'Close' }, icon('close', 16));
   const panel = h(
     `div.modal-panel${opts.wide ? '.wide' : ''}`,
     { role: 'dialog', 'aria-modal': 'true', 'aria-label': title, tabindex: '-1' },

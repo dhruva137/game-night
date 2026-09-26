@@ -66,7 +66,7 @@ export function pulse(el: Element, cls: string): void {
 export function titleCard(kicker: string, title: string, sub: string): Promise<void> {
   if (reducedMotion()) return Promise.resolve();
   return new Promise((resolve) => {
-    const card = h('div.titlecard', { 'aria-hidden': 'true' }, h('div.tc-kicker', kicker), h('div.tc-title', { 'data-text': title }, title), h('div.tc-sub', sub));
+    const card = h('div.titlecard', { 'aria-hidden': 'true' }, h('div.tc-card', h('div.tc-kicker', kicker), h('div.tc-title', title), h('div.tc-sub', sub)));
     document.body.append(card);
     const done = () => {
       card.classList.add('out');
