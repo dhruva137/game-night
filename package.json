@@ -1,0 +1,22 @@
+{
+  "name": "blind-spot",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "BLIND SPOT: supervise an AI agent that learns when you're not looking. Mangrove Game Night 2026.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --port 4173",
+    "test": "vitest run",
+    "e2e": "playwright test"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "1.56",
+    "@types/node": "^26.6.3",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.1",
+    "vitest": "^5.0.2"
+  }
+}
