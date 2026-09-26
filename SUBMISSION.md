@@ -26,7 +26,7 @@ Between shifts you pick a real oversight tool, and each has a real weakness: tru
   - Across balance simulations, a careful reader survives the first shift about 90% of the time but only 7–12% once the model starts learning them.
   - Random auditing plus tools survives most shifts.
   - The lesson isn't "try harder": the fix has to live in the protocol (randomisation, monitors, probes), not in the human.
-- **In playtesting,** the most effective moment was the reveal. People expect to be hard to read, and find out they audited on a fixed rhythm most of the time.
+- **[Fill in after you play it yourself or with friends. Keep it to what really happened,** e.g. "In our own playtests, the reveal was the moment that landed: we expected to be hard to read, and scored 60–80."**]**
 - **Design lesson:** a small, honest mechanic that acts on the player's own behaviour taught more than any text we wrote.
 
 **What we'd do next**
