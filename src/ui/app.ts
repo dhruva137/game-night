@@ -407,6 +407,13 @@ function playScreen(shift: Shift): void {
 
   renderHud();
   schedule(700);
+  if (cfg.id === 1) {
+    window.setTimeout(() => {
+      if (!shift.done && shift.budget === shift.tuning.budget) {
+        toast('warn', 'YOUR MOVE', 'Tap anywhere on the log (or press Space) to audit the highlighted ▶ line. Read fast: it moves on.');
+      }
+    }, 1200 / SPEED);
+  }
 }
 
 // ── report ──────────────────────────────────────────────────────────────────
