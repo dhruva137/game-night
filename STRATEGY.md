@@ -4,6 +4,17 @@
 Judging: Fun 40% · AI-risk relevance 40% · Replay value 20%. Prizes: Overall $1,000, plus $250 for each track.
 Judging is also peer review: other participants review each other's entries until Oct 1.
 
+## 0. Submission format (checked against the event page and the organisers' tips doc)
+- The official requirement: *"Whatever someone needs to experience your game, plus a three to five minute video showing us how it works. A rough prototype is completely fine. We care much more about whether the idea works than whether everything is polished."*
+- No file type or platform is required. Entries are submitted through the Mangrove platform (try.mangrove.one, while signed in). We can't see the form's fields without logging in, so **check the form early**.
+- Tips doc: "make a good game first", "agree on one thing in the first 30 min, then build an MVP (make it smaller!)", "give each subcomponent a single owner".
+- **What we'll hand in:**
+  1. A **live website URL** (GitHub Pages or itch.io) that plays instantly on desktop and phone.
+  2. An **unlisted YouTube or Loom video** of 3–5 minutes.
+  3. The **GitHub repo** link, which includes the AI-use disclosure.
+  4. A **print-and-play PDF** if the game has physical components.
+- **Constraint this adds:** peer reviewers are other participants, and they'll usually open the link *alone*. So whatever we build must be **playable by one person in under 2 minutes**. A party game needs a solo mode against bots, or reviewers can't experience it.
+
 ## 1. Competitor scan (entries public so far, as of 01:30 IST Sep 27)
 
 | Entry | Track | What it is | What it means for us |
