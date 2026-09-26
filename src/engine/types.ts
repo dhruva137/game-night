@@ -121,6 +121,6 @@ export interface ShiftStats {
   monitorFailedAt: number | null;
   auditRateFlaggedBefore: number | null;
   auditRateUnflaggedAfter: number | null;
-  timeline: { audited: 'manual' | 'auto' | null; kind: LineKind; landed: boolean; pAudit: number }[];
+  timeline: { audited: 'manual' | 'auto' | null; kind: LineKind; landed: boolean; pAudit: number; look: number; flagged: boolean }[];
   gaps: number[];
 }

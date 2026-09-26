@@ -19,7 +19,7 @@ Goals, in priority order:
 | Share | `navigator.share` → clipboard → plain text shown on screen | Works on mobile and desktop |
 | Unit tests | **Vitest** | Predictor accuracy, engine determinism, scoring |
 | End-to-end + footage | **Playwright** (Chromium already installed here) | A smoke test on every build; **records scripted gameplay video** for the submission |
-| Deploy | **GitHub Pages via Actions** (`.github/workflows/pages.yml`) | A push deploys it. Fallback: `dist.zip` for an itch.io HTML5 upload |
+| Deploy | **Vercel** (`vercel.json`, Vite preset) | Import the repo once; every push redeploys. Fallback: `dist.zip` for an itch.io HTML5 upload |
 | Fonts | System monospace stack | No network fetch; no flash of unstyled text |
 
 ## Architecture
@@ -98,6 +98,6 @@ That proves the lesson is real and that a random-audit strategy can win.
 - [ ] AI-use disclosure in the README.
 
 ## Your steps (the only things I can't do from here)
-1. Repo **Settings → Pages → Source: GitHub Actions** (one click). This gives the live URL.
+1. vercel.com → Add New → Project → import `dhruva137/game-night` → Deploy. This gives the live URL.
 2. Playtest from 08:00; send me the rough spots.
 3. Record the voice-over on top of my recorded clips (or screen-record live), upload it unlisted, and submit on Mangrove.

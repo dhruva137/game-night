@@ -454,7 +454,7 @@ export class Shift {
       monitorFailedAt: this.monitorFailedAt,
       auditRateFlaggedBefore: before,
       auditRateUnflaggedAfter: after,
-      timeline: this.lines.map((l) => ({ audited: l.audited, kind: l.kind, landed: l.landed, pAudit: l.pAudit })),
+      timeline: this.lines.map((l) => ({ audited: l.audited, kind: l.kind, landed: l.landed, pAudit: l.pAudit, look: l.def.look, flagged: l.flagged })),
       gaps,
     };
   }

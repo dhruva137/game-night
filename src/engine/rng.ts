@@ -34,7 +34,7 @@ export function shuffle<T>(rng: Rng, items: readonly T[]): T[] {
   return out;
 }
 
-const EPOCH = Date.UTC(2026, 8, 27); // Game Night submission day = daily #1
+const EPOCH = Date.UTC(2026, 8, 26); // Game Night kickoff day = daily #1
 
 /** Daily challenge number (1-based) for a given date, in UTC. */
 export function dailyNumber(now: Date = new Date()): number {
