@@ -19,7 +19,7 @@ export function timelineChart(s: ShiftStats): SVGElement {
   s.timeline.forEach((t, i) => {
     const x = i * cw + 1;
     const bh = Math.max(2, t.pAudit * 70);
-    const bar = svg('rect', { x, y: base - bh, width: cw - 2, height: bh, rx: 1, fill: t.audited === 'manual' ? '#2d5a78' : '#26332d' });
+    const bar = svg('rect', { class: 'bar', style: `animation-delay:${i * 14}ms`, x, y: base - bh, width: cw - 2, height: bh, rx: 1, fill: t.audited === 'manual' ? '#2d5a78' : '#26332d' });
     bar.append(svg('title', {}, `#${i + 1} · model's P(you audit) ${Math.round(t.pAudit * 100)}%`));
     root.append(bar);
     if (t.audited) {
@@ -59,7 +59,7 @@ export function gapChart(s: ShiftStats): SVGElement | null {
     const x = (k - 1) * bw;
     const you = ((counts[k] / total) / maxV) * 80;
     const rnd = (random[k] / maxV) * 80;
-    root.append(svg('rect', { x: x + 4, y: 86 - you, width: bw / 2 - 5, height: you, fill: '#7cc7ff', rx: 2 }));
+    root.append(svg('rect', { class: 'bar', style: `animation-delay:${k * 50}ms`, x: x + 4, y: 86 - you, width: bw / 2 - 5, height: you, fill: '#7cc7ff', rx: 2 }));
     root.append(svg('rect', { x: x + bw / 2, y: 86 - rnd, width: bw / 2 - 5, height: rnd, fill: '#4a5c53', rx: 2 }));
     root.append(svg('text', { x: x + bw / 2, y: 102, fill: '#7f948a', 'font-size': 10, 'text-anchor': 'middle', 'font-family': 'monospace' }, k === maxG ? `${k}+` : String(k)));
   }

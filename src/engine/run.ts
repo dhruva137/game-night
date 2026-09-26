@@ -65,6 +65,17 @@ export class Run {
     this.upgrades.add(u);
   }
 
+  /** Points for one shift: catches, a clean outcome, and staying hard to read; harm costs points. */
+  static shiftScore(s: ShiftStats, adaptive: boolean): number {
+    const outcome = s.outcome === 'shutdown' ? 300 : s.outcome === 'contained' ? 100 : 0;
+    const unpredictability = adaptive ? Math.max(0, 60 - s.predictability) * 3 : 0;
+    return Math.max(0, s.caught * 100 + outcome + unpredictability - s.harm * 40);
+  }
+
+  totalScore(): number {
+    return this.results.reduce((sum, r) => sum + Run.shiftScore(r, SHIFTS[r.shiftId - 1].adaptive), 0);
+  }
+
   overallPredictability(): number {
     return this.predictor.predictability();
   }
@@ -91,7 +102,7 @@ export class Run {
     });
     return [
       `${title} 🔍`,
-      `It predicted me: ${this.overallPredictability()}/100`,
+      `Score ${this.totalScore()} · it predicted me ${this.overallPredictability()}/100`,
       ...rows,
       url,
     ].join('\n');

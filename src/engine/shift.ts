@@ -256,7 +256,7 @@ export class Shift {
     }
     if (this.upgrades.has('probe')) {
       const bad = line.kind === 'sabotage' || line.kind === 'fragment';
-      const hit = bad ? r() < 0.75 : r() < 0.1;
+      const hit = bad ? r() < 0.65 : r() < 0.15;
       line.probe = hit ? 0.6 + 0.35 * r() : 0.05 + 0.3 * r();
     }
     if (this.upgrades.has('cot')) {

@@ -9,8 +9,10 @@ const page = await ctx.newPage();
 const wait = (ms) => page.waitForTimeout(ms);
 
 await page.goto(`http://localhost:4173/?speed=${speed}`);
-await wait(2500);
-await page.getByRole('button', { name: /today's run/i }).click();
+await page.evaluate(() => localStorage.setItem('blind-spot:v1', JSON.stringify({ tutorialDone: true })));
+await page.reload();
+await wait(4500);
+await page.getByRole('button', { name: /Play daily run/ }).click();
 
 for (let shift = 1; shift <= 5; shift++) {
   await wait(4000); // let the briefing be read on camera
@@ -46,7 +48,7 @@ for (let shift = 1; shift <= 5; shift++) {
   }
   await wait(1500);
   if (shift < 5) {
-    await page.getByRole('button', { name: /Choose an upgrade/ }).click();
+    await page.getByRole('button', { name: /Choose a tool/ }).click();
     await wait(3000);
     const pref = ['Activation Probe', 'CoT Peek', 'Central Correlator', 'Honeypot', 'Deployment Steering', 'Trusted Monitor'];
     let done = false;

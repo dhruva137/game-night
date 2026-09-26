@@ -7,10 +7,14 @@ test('full run: 5 shifts, upgrades, ending, share', async ({ page }, info) => {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(String(e)));
   await page.goto('/?speed=6');
-  await page.getByRole('button', { name: /today's run/i }).click();
+  // mark training as done so the run starts at shift 1
+  await page.evaluate(() => localStorage.setItem('blind-spot:v1', JSON.stringify({ tutorialDone: true })));
+  await page.reload();
+  await page.getByRole('button', { name: /Play daily run/ }).click();
 
   for (let shift = 1; shift <= 5; shift++) {
     await page.getByRole('button', { name: /Begin shift/ }).click();
+    await page.locator('.titlecard').click({ timeout: 3000 }).catch(() => {});
     let i = 0;
     while (!(await page.locator('.verdict').isVisible())) {
       // semi-random auditing; plant a honeypot now and then
@@ -22,7 +26,7 @@ test('full run: 5 shifts, upgrades, ending, share', async ({ page }, info) => {
     }
     await page.screenshot({ path: `test-results/shots/run-s${shift}-report.png`, fullPage: true });
     if (shift < 5) {
-      await page.getByRole('button', { name: /Choose an upgrade/ }).click();
+      await page.getByRole('button', { name: /Choose a tool/ }).click();
       // prefer tools that show visible UI, so screenshots cover them
       const pref = ['CoT Peek', 'Activation Probe', 'Central Correlator', 'Honeypot', 'Trusted Monitor'];
       let clicked = false;

@@ -34,7 +34,9 @@ export type SourceId =
   | 'cot'
   | 'complacency'
   | 'rewardhack'
-  | 'auditing';
+  | 'auditing'
+  | 'scheming'
+  | 'spar';
 
 export type UpgradeId =
   | 'rng'
